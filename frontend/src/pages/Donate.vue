@@ -30,6 +30,5 @@ export default{
         this.name = name.params.name
         this.price = name.params.price
     }
-
 }
 </script>

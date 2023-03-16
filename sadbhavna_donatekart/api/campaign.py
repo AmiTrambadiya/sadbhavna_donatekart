@@ -19,3 +19,27 @@ def request_campaign(full_name, email, phone, campaign_story, social_media_page,
     doc.insert(ignore_permissions=True)
     frappe.db.commit()
     
+
+@frappe.whitelist(allow_guest=True)
+def get_details_of_ngo_campaigns(ngo):
+    # donor = frappe.db.get_value("Donor", filters={"email": donor}, fieldname=["name"])
+    total_live_campaign = 0
+    total_pending_campaign = 0
+    total_rejected_campaign = 0
+    total_raised_amount = 0
+    total_requested_amount = 0
+    ngo_name = frappe.db.get_value("NGO", filters={"email": ngo}, fieldname=['name'])
+    data = frappe.db.get_list("Donation Campaign", filters={"ngo": ngo_name}, fields=['name', 'raised_amount', 'donation_amount', 'status'])
+    
+    for i in data:
+        total_raised_amount += i.raised_amount
+        total_requested_amount += i.donation_amount
+        if i.status == 'Live':
+            total_live_campaign += 1
+        if i.status == 'Rejected':
+            total_rejected_campaign += 1
+        if i.status == 'Pending':
+            total_pending_campaign += 1
+
+    data = [{"total_live_campaign": total_live_campaign, "total_pending_campaign": total_pending_campaign, "total_raised_amount": total_raised_amount, "total_rejected_campaign": total_rejected_campaign, "total_requested_amount":total_requested_amount}]
+    return data

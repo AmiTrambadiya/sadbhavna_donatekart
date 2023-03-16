@@ -1,2 +1,22 @@
 @import './assets/Inter/inter.css';
 @import 'frappe-ui/src/style.css';
+
+h5 {
+  font-family: 'Mulish', sans-serif;
+}
+
+p {
+  font-family: 'Mulish', sans-serif;
+}
+
+div {
+  font-family: 'Mulish', sans-serif;
+}
+
+.form-control.invalid input {
+  border-color: red;
+}
+
+.form-control.invalid label {
+  color: red;
+}

@@ -2,10 +2,10 @@
   <Navbar />
   <div class="container mx-auto h-full my-20">
     <div class="flex content-center items-center justify-center h-full">
-      <div class="w-full lg:w-4/12 px-4">
+      <div class="w-11/12 md:w-6/12 lg:w-4/12 px-4">
         <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
           <div class="flex-auto px-4 lg:px-10 py-10 pt-5">
-            <div class="text-blueGray-400 text-center mb-3 font-bold text-xl">
+            <div class="text-blueGray-400 text-center mb-3 font-bold text-[40px] md:text-[45px] lg:text-[45px]">
               <small>sign in </small>
             </div>
             <form>
@@ -28,7 +28,7 @@
               </div>
               <div class="text-center mt-6">
                 <button style="background-color: #40b751;"
-                  class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-4 w-full ease-linear transition-all duration-150"
+                  class="cursor-pointer border-[#40b751] hover:border-[#40b751] bg-[#40b751] hover:bg-transparent text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-4 w-full ease-linear transition-all duration-150"
                   type="button" @click="login()">
                   Sign In
                 </button>
@@ -50,7 +50,7 @@
   </div>
 
 
-  <div class="container mx-auto h-full">
+  <!-- <div class="container mx-auto h-full">
     <div class="w-full pt-0 md:pt-5 lg:pt-12 bg-grey-lightest">
       <div class="container mx-auto py-0">
         <div class="w-4/6 lg:w:4/6 mx-auto bg-white">
@@ -110,14 +110,14 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
 
 
 
 
 
-<Footer />
+  <Footer />
 </template>
 
 <script>
@@ -150,7 +150,12 @@ export default {
           this.$router.push(`/home`);
         },
         onError: (error) => {
-          alert("Invalid Login");
+          this.$toast({
+            title: "Error",
+            text: "User Name or Password Incorrect",
+            customIcon: "circle-fail",
+            appearance: "denger",
+          })
           this.email = "";
           this.password = "";
         },
@@ -160,10 +165,17 @@ export default {
       return {
         method: 'frappe.www.login.login_via_token',
         onSuccess: () => {
-          console.log("okey")
+          // console.log("okey")
+          this.$router.push('/home')
         },
         onError: (error) => {
           console.log("error", error)
+          this.$toast({
+            title: "Error",
+            text: 'Something want Wrong!',
+            customIcon: "circle-fail",
+            appearance: "denger",
+          })
         }
       }
     },
@@ -196,7 +208,7 @@ export default {
       // }).catch(function (error){
       //   console.log(error);
       // })
-      //   axios.post("/api/method/login",{
+      //   axios.post("//method/login",{
       //       usr: email,
       //       pwd: password
       //     }
@@ -218,14 +230,11 @@ export default {
     // }
 
     login_with_google: (response) => {
-      console.log("data", response)
       let userData = decodeCredential(response.credential)
       let email = userData.email
       let first_name = userData.family_name
       let last_name = userData.given_name
       let image_url = userData.picture
-
-      console.log("asdfads", userData)
 
       let url = `http://sadbhavnadonatekart.com:8080/api/method/sadbhavna_donatekart.api.api.login_with_google?email=${email}&first_name=${first_name}&last_name=${last_name}&image_url=${image_url}`
       fetch(url, {

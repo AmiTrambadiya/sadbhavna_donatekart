@@ -2,6 +2,8 @@ from frappe.auth import LoginManager
 from sadbhavna_donatekart.api.autologin import login_via_oauth2, login_via_oauth2_id_token
 import frappe
 from frappe.utils import today
+import math
+import random
 
 import base64
 import json
@@ -65,11 +67,11 @@ def register(first_name, last_name, email, password, phone_number, pan_number):
 
 
 @frappe.whitelist(allow_guest=True)
-def set_details_in_doctype_after_donation(user_id, campaign, item, amount, payment_id):
+def set_details_in_doctype_after_donation(user_id, campaign, item, amount, payment_id, anonymous):
     donor = frappe.db.get_value(
         "Donor", filters={"email": f"{user_id}"}, fieldname=["name"], pluck="name")
     donation = frappe.get_doc({"doctype": "Donation", "donor": donor, "campaign": f"{campaign}",
-                              "date": today(), "amount": amount, "donation_item": item, "payment_id": payment_id})
+                              "date": today(), "amount": amount, "donation_item": item, "payment_id": payment_id, "anonymous": anonymous})
     donation.insert(ignore_permissions=True)
     frappe.db.commit()
 
@@ -78,12 +80,15 @@ def set_details_in_doctype_after_donation(user_id, campaign, item, amount, payme
                                                          "name": campaign}, fieldname=["raised_amount", "donation_amount"])
     total = int(amount) + int(raised_amount)
     if total >= int(donation_amount):
-        frappe.db.set_value("Donation Campaign", campaign,
-                            "raised_amount", total)
-        frappe.db.set_value("Donation Campaign", campaign, "published", 0)
+        # frappe.db.set_value("Donation Campaign", campaign,
+        #                     "raised_amount", total)
+        frappe.db.set_value("Donation Campaign", campaign, {
+                            "raised_amount": total, "published": 0, "status": "Closed"})
     else:
         frappe.db.set_value("Donation Campaign", campaign,
                             "raised_amount", total)
+
+# login with google
 
 
 @frappe.whitelist(allow_guest=True)
@@ -113,7 +118,7 @@ def login_with_google(email, last_name='', first_name='', image_url=''):
         )
         doc.save(ignore_permissions=True)
         donor = frappe.db.get_value(
-        "Donor", filters={"email": f"{email}"}, fieldname=["name"], pluck="name")
+            "Donor", filters={"email": f"{email}"}, fieldname=["name"], pluck="name")
         doc = frappe.get_doc("Donor", donor)
         doc.update(
             {
@@ -141,10 +146,23 @@ def login_user(user):
     # return login_token
     return login_via_token(login_token)
 
+# @frappe.whitelist(allow_guest=True)
+# def login_user():
+#     # frappe.local.login_manager.user = user
+#     frappe.local.login_manager.post_login()
+#     frappe.db.commit()
+
+#     login_token = frappe.generate_hash(length=32)
+#     frappe.cache().set_value(
+#         f"login_token:{login_token}", frappe.local.session.sid, expires_in_sec=120
+#     )
+#     print("\n\n login token", login_token, "\n\n")
+#     # return login_token
+#     return login_via_token(login_token)
+
 
 @frappe.whitelist(allow_guest=True)
 def login_via_token(login_token: str):
-    print("\n\n called",  login_token, "\n\n")
     sid = frappe.cache().get_value(f"login_token:{login_token}", expires=True)
     if not sid:
         frappe.respond_as_web_page(_("Invalid Request"), _(
@@ -154,3 +172,58 @@ def login_via_token(login_token: str):
     frappe.local.form_dict.sid = sid
     frappe.local.login_manager = LoginManager()
     return True
+
+
+# login with whatsapp if whatsapp integration is enable
+@frappe.whitelist(allow_guest=True)
+def login_with_whatsapp(phone):
+    # if whatsapp integration
+    otp = generateOTP(4)
+    # doc = frappe.get_doc({"doctype": "Whatsapp OTP", "number": f'{phone}', "otp": otp, "status": "Pending"})
+    doc = frappe.get_doc({"doctype": "Whatsapp OTP",
+                         "number": f'{phone}', "otp": otp, "status": "Sent"})
+    doc.insert(ignore_permissions=True)
+    frappe.db.commit()
+
+    message = send_whatsapp_otp(phone)
+    result = {"message": message, "number": phone}
+    return message, phone
+
+
+# generate OTP
+def generateOTP(digit):
+    digits = "0123456789"
+    OTP = ""
+    for i in range(digit):
+        OTP += digits[math.floor(random.random() * 10)]
+
+    return OTP
+
+
+def send_whatsapp_otp(phone):
+    return f'OTP sent to your whatsapp number: {phone}'
+
+
+# verify OTP
+@frappe.whitelist(allow_guest=True)
+def verify_otp(number, otp):
+    data = frappe.db.get_value("Whatsapp OTP", filters={
+                               "number": number, "otp": otp, "status": "Sent"})
+    if data:
+        # OTP match write your logic here
+        user = frappe.db.get_value(
+            "User", filters={"phone": number}, fieldname=['name'])
+        if user:
+            login_user(user)
+        else:
+            user = frappe.get_doc({"doctype": "User", "email": email, "first_name": first_name})
+            user.insert(ignore_permissions=True)
+            frappe.db.commit()
+            donor = frappe.get_doc({"doctype": "Donor", "email": f"{email}", "donor_name": f"{first_name}",
+                                    "donor_type": "Defult"})
+            donor.insert(ignore_permissions=True)
+            frappe.db.commit()
+
+    else:
+        # OTP not match write your logic here
+        return f'Your OTP is not match with your number: {number}'

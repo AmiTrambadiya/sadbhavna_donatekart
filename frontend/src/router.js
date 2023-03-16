@@ -1,7 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHistory
+} from 'vue-router'
 
-const routes = [
-  {
+const routes = [{
     path: '/home',
     name: 'Home',
     component: () => import('@/pages/Home.vue'),
@@ -37,6 +39,11 @@ const routes = [
     component: () => import('@/pages/ContactUs.vue')
   },
   {
+    path: '/sadbhavna/blog',
+    name: 'Blog',
+    component: () => import('@/pages/Blog.vue')
+  },
+  {
     path: '/sadbhavna/profile/:name',
     name: 'Profile',
     component: () => import('@/pages/auth/ProfilePage.vue')
@@ -56,7 +63,16 @@ const routes = [
     name: 'Faq',
     component: () => import('@/components/Faq.vue')
   },
-  
+  {
+    path: '/sadbhavna/Verifyotp',
+    name: 'Verifyotp',
+    component: () => import('@/components/Verifyotp.vue')
+  },
+  {
+    path: '/sadbhavna/otp/:message&:number',
+    name: 'OTP',
+    component: () => import('@/pages/auth/OTP.vue')
+  }
 ]
 
 let router = createRouter({

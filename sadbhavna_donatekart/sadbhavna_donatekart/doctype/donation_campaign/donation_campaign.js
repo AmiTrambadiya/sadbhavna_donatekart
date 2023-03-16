@@ -11,7 +11,6 @@ frappe.ui.form.on('Donation Campaign', {
 		if(frm.doc.campaign_request){
 			frm.events.show_go_to_ngo_campaign_form(frm,"Donation Campaign Request",frm.doc.campaign_request);
 		}
-				
 	},
 	before_save: function(frm) {
 		is_form_new = frm.doc.name.includes('new')

@@ -12,9 +12,6 @@ import "@/assets/Inter/styles/tailwind.css"
 import vue3GoogleLogin from 'vue3-google-login';
 // import GoogleSignInPlugin from "vue3-google-signin"
 
-
-
-
 // import VueSession from "vue-session";
 
 
@@ -34,12 +31,9 @@ const gauthOption = {
     scope: 'email',
     prompt: 'consent',
   }
-
   // app.use(GoogleSignInPlugin, {
   //   clientId: '615226899593-b4jpeolmo526beqkiqvo1bf7ob06rhpb.apps.googleusercontent.com',
   // });
-
-
 
 
 let app = createApp(App)
