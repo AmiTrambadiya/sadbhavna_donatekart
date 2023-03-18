@@ -46,34 +46,28 @@
 
 
                 </div>
-                <div class="w-full lg:w-4/12 pl-4">
+                <div class="w-full lg:w-4/12">
                     <!-- <DonationDetailRightside /> -->
                     <div style="font-size: 2rem;" class="text-gray-600">Product</div>
                     <div class="pb-8" v-for="products in campaign_detail.data.add_campaign_items">
                         <!-- {{ products }} -->
 
                         <div class="block shadow-lg bg-white pl-5">
-                            <div class="flex flex-wrap items-center pt-10">
+                            <div class="flex  items-center pt-10">
 
                                 <div class="">
-
                                     <div v-if="products.image != 1" class="mb-12 md:mb-12 sm:mb-0">
                                         <div>
                                             <Avatar :imageURL="products.image" :label="products.display_as_name"
                                                 size="lg" />
                                         </div>
-
                                     </div>
                                     <div v-else>
                                         <div>
                                             <Avatar imageURL="" size="lg" />
                                         </div>
-
                                     </div>
-
                                 </div>
-
-
 
                                 <div class="lg:w-9/12 xl:w-9/12">
                                     <div class="px-6 md:px-6 lg:px-6">

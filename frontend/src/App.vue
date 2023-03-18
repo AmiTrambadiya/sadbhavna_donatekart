@@ -8,6 +8,7 @@
   </div>
 </template>
 <script>
+
 import { provide, ref } from 'vue'
 import { call } from 'frappe-ui'
 import { Toasts } from '@/utils/toasts'

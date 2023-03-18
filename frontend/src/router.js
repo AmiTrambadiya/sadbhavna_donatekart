@@ -34,6 +34,11 @@ const routes = [{
     component: () => import('@/pages/auth/Registration.vue')
   },
   {
+    path: '/sadbhavna/blog-post/:name',
+    name: 'BlogPost',
+    component: () => import('@/pages/auth/BlogPost.vue')
+  },
+  {
     path: '/sadbhavna/contact-us',
     name: 'Contact Us',
     component: () => import('@/pages/ContactUs.vue')
@@ -43,6 +48,7 @@ const routes = [{
     name: 'Blog',
     component: () => import('@/pages/Blog.vue')
   },
+
   {
     path: '/sadbhavna/profile/:name',
     name: 'Profile',
@@ -68,6 +74,7 @@ const routes = [{
     name: 'Verifyotp',
     component: () => import('@/components/Verifyotp.vue')
   },
+
   {
     path: '/sadbhavna/otp/:message&:number',
     name: 'OTP',

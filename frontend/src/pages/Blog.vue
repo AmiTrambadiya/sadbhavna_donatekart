@@ -1,5 +1,5 @@
 <template>
-    <!-- <Navbar /> -->
+    <Navbar />
     <br><br>
 
     <div class="container mx-auto h-full">
@@ -29,18 +29,18 @@
                                         data.raised_amount * 100 /
                                         data.donation_amount }}%</div>
                             </div> -->
-                            <div
+                                <!-- <div
                                 class="flex border-b-2 border-b-gray-100  justify-between mt-6 mb-6 pb-6 text-sm font-bold">
                                 <span>Raised: {{ data.raised_amount }}</span><span>Goal: {{ data.donation_amount }}</span>
-                            </div>
+                            </div> -->
                             </p>
                         </div>
-                        <!-- <div class="sm:pr-9 md:pr-2 lg:pr-9 pb-7 pl-9 flex justify-between">
+                        <div class="sm:pr-9 md:pr-2 lg:pr-9 pb-7 pl-9 flex justify-between">
                             <button class="text-[#40b751] text-base">Share</button>
                             <button
                                 class="rounded-lg bg-[#40b751] hover:bg-white text-white hover:border-[#40b751] hover:border hover-border-solid hover:text-[#40b751] active:bg-green-600 uppercase text-xs md:text-xs lg:text-sm px-6 py-3 shadow hover:shadow-lg outline-none focus:outline-none mr-4 lg:mr-1 mb-1 ease-linear transition-all duration-150"
-                                type="button" @click="donate(data.name)"> donate now </button>
-                        </div> -->
+                                type="button" @click="opencampaign(data.name)"> donate now </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,13 +58,12 @@
                 <div class="pb-5 md:pb-10 lg:pb-10 pt-5 md:pt-4 lg:pt-10 grid ">
                     <div
                         class="max-w-[580px] md:max-w-[350px] lg:max-w-[350px] lg:max-w-sm rounded overflow-hidden shadow-lg">
-                        <!-- <img class="w-full h-40 cursor-pointer" :src="data.campain_image" alt="Mountain"
-                            @click="donate(data.name)"> -->
+                        <img class="w-full h-40 cursor-pointer" :src="data.meta_image" alt="">
                         <div class="pt-9 pr-9 pd-7 pl-9 ">
                             <div class="font-medium text-[#40b751] text-xl mb-2 truncate">{{ data.title }}
                             </div>
 
-                            <p class="text-gray-700 text-base truncate">{{ data.blog_intro }}
+                            <p class="text-gray-700 text-base truncate pb-4">{{ data.blog_intro }}
 
                                 <!-- <div class="w-full bg-gray-200 rounded h-[16px] dark:bg-gray-700 mt-6 mb-6 ">
                                 <div v-if="data.raised_amount"
@@ -80,10 +79,10 @@
                             </p>
                         </div>
                         <div class="sm:pr-9 md:pr-2 lg:pr-9 pb-7 pl-9 flex justify-between">
-                            <button class="text-[#40b751] text-base">Share</button>
-                            <!-- <button
+                            <!-- <button class="text-[#40b751] text-base">Share</button> -->
+                            <button
                                 class="rounded-lg bg-[#40b751] hover:bg-white text-white hover:border-[#40b751] hover:border hover-border-solid hover:text-[#40b751] active:bg-green-600 uppercase text-xs md:text-xs lg:text-sm px-6 py-3 shadow hover:shadow-lg outline-none focus:outline-none mr-4 lg:mr-1 mb-1 ease-linear transition-all duration-150"
-                                type="button" @click="donate(data.name)"> donate now </button> -->
+                                type="button" @click="openblog(data.name)"> Open </button>
                         </div>
                     </div>
                 </div>
@@ -94,7 +93,7 @@
         <!-- DONOR -->
 
 
-        <div>
+        <!-- <div>
             <h1 style="font-size: 3rem" class="text-center">Donor</h1>
         </div>
         <div v-for="data in donors">
@@ -104,11 +103,11 @@
                 <p style="font-size: 1rem" class="text-center">{{ data.mobile }}</p>
             </div>
 
-        </div>
+        </div> -->
 
         <!-- DONOR /-->
     </div>
-    <!-- <Footer /> -->
+    <Footer />
 </template>
 
 
@@ -121,8 +120,8 @@ export default {
     name: "Blog",
     created() {
         this.get_blogs()
-        this.get_campaigns()
-        this.get_donors()
+        // this.get_campaigns()
+        // this.get_donors()
     },
     components: {
 
@@ -134,33 +133,33 @@ export default {
         return {
             blogs: [],
             campaigns: [],
-            donors: []
+            // donors: []
         }
     },
     methods: {
-        // get_campaigns(category) {
-        //     let url = ''
-        //     if (category == null) {
-        //         url = '/api/resource/Donation Campaign?filters={"published": 1}&fields=["name", "campain_image", "campaign_title", "is_featured","donation_amount", "raised_amount", "start_date", "end_date", "short_description", "ngo", "campaign_category"]'
-        //         console.log("campaign - if");
-        //     }
-        //     else {
-        //         url = `/api/resource/Donation%20Campaign?filters=[["Donation Campaign","campaign_category","=","${category}"],["Donation Campaign","published","=",1]]&fields=["name", "campain_image", "is_featured", "campaign_title", "donation_amount", "raised_amount", "start_date", "end_date", "short_description", "ngo", "campaign_category"]`
-        //         console.log("campaign - else");
-        //     }
+        get_campaigns(category) {
+            let url = ''
+            if (category == null) {
+                url = '/api/resource/Donation Campaign?filters={"published": 1}&fields=["name", "campain_image", "campaign_title", "is_featured","donation_amount", "raised_amount", "start_date", "end_date", "short_description", "ngo", "campaign_category"]'
 
-        //     axios.get(url).then((response) => {
-        //         console.log("campaign", response)
-        //         this.campaigns = response.data['data']
-        //     }).catch(function (error) {
-        //         console.log(error);
-        //     })
-        // },
+            }
+            else {
+                url = `/api/resource/Donation%20Campaign?filters=[["Donation Campaign","campaign_category","=","${category}"],["Donation Campaign","published","=",1]]&fields=["name", "campain_image", "is_featured", "campaign_title", "donation_amount", "raised_amount", "start_date", "end_date", "short_description", "ngo", "campaign_category"]`
+
+            }
+
+            axios.get(url).then((response) => {
+                console.log("campaign", response)
+                this.campaigns = response.data['data']
+            }).catch(function (error) {
+                console.log(error);
+            })
+        },
         get_blogs() {
 
-            let url = '/api/resource/Blog Post?filters={"published": 1}&fields=["title", "blog_category", "blog_intro"]';
-            // let url = '/api/resource/Blog Post?filters=[["title", "=", "123"],["blog_category", "=", "456"]]';
-            console.log("blog post");
+            let url = '/api/resource/Blog Post?filters={"published": 1}&fields=["name", "title", "meta_image", "blog_category", "blog_intro", "content_md"]';
+
+
 
             axios.get(url).then((response) => {
                 console.log("blog", response)
@@ -168,46 +167,14 @@ export default {
             }).catch(function (error) {
                 console.log(error);
             })
-
-
-            // fetch(url, {
-            //     method: 'GET',
-            // })
-            //     .then((response) => {
-            //         response.json().then((response) => {
-
-            //             let url = `/api/resource/Blog Post?filters={"published": 1}&fields=["title", "blog_category", "blog_intro"]`
-            //             fetch(url, {
-            //                 method: 'GET',
-            //             }).then((response) => {
-            //                 response.json().then((response) => {
-            //                     this.blogs = response.data['data']
-            //                 })
-            //             })
-            //         })
-            //     })
-            //     .catch((error) => {
-            //         console.log(error)
-            //     })
-
-
-
-            // axios.get(url).then(response => response.json())
-            // axios.get(url).then((response) => {
-            //     response.json().then((res) => {
-            //         url = '/api/resource/Blog Post?filters={"published": 1}&fields=["title", "blog_category", "blog_intro"]'
-            //         fetch(url, {
-            //             method: 'GET',
-            //         }).then((response) => {
-            //             response.json().then((res) => {
-            //                 this.blogs = res.data
-            //             })
-            //         })
-            //     })
-            // })
-
-
         },
+        openblog(name) {
+
+            this.$router.push(`/sadbhavna/blog-post/${name}`)
+        },
+        opencampaign(name) {
+            this.$router.push(`/sadbhavna/campaign-donation/${name}`)
+        }
 
         // get_donors() {
         //     let url = '';

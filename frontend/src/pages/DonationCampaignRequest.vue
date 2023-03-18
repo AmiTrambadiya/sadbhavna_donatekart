@@ -4,14 +4,14 @@
         <div v-if="openTab == 1"
             class="absolute bg-bottom bg-x-center bg-y-bottom bg-no-repeat z-1 top-96 sm:h-0 md:h-0 lg:h-0 xl:h-[650px] sm:w-0 md:w-0 lg:w-0 xl:w-96  sm:right-0 md:right-5 lg:right-16 bg-no-repeat opacity-40 bg-white bg-contain bg-no-repeat"
             style="
-                                                                                                                                                                                                                                                                                                    background-image: url('../../src/assets/Inter/img/bg-tree.png');
-                                                                                                                                                                                                                                                                                                  ">
+                                                                                                                                                                                                                                                                                                                            background-image: url('../../src/assets/Inter/img/bg-tree.png');
+                                                                                                                                                                                                                                                                                                                          ">
         </div>
         <div v-if="openTab == 2"
             class="absolute bg-bottom bg-x-center bg-y-bottom bg-no-repeat z-1 top-[300px] sm:h-0 md:h-0 lg:h-0 xl:h-[643px] sm:w-0 md:w-0 lg:w-0 xl:w-96  sm:right-0 md:right-5 lg:right-16 bg-no-repeat opacity-40 bg-white bg-contain bg-no-repeat"
             style="
-                                                                                                                                                                                                                                                                                                    background-image: url('../../src/assets/Inter/img/bg-tree.png');
-                                                                                                                                                                                                                                                                                                  ">
+                                                                                                                                                                                                                                                                                                                            background-image: url('../../src/assets/Inter/img/bg-tree.png');
+                                                                                                                                                                                                                                                                                                                          ">
         </div>
         <div class="container mx-auto h-full">
 
@@ -20,7 +20,7 @@
                     <div class="w-6/6 lg:w:4/6 mx-auto bg-white">
                         <div
                             class="text-[24px] md:text-[30px] lg:text-[36px] py-8 px-10 text-gray-600 font-[200px] text-center">
-                            Donation Campaign request
+                            Donation Campaign Request
                         </div>
                         <div class="relative z-0">
                             <div class=" sm:p-10 ">
@@ -51,9 +51,13 @@
                                                         Name</label>
                                                     <input
                                                         class="appearance-none border-gray-300  hover:border-[#40b751] rounded w-full py-2 px-3 text-grey-darker"
-                                                        v-model.trim="full_name" type="text" @blur="validateFullname">
+                                                        v-model.trim="full_name" type="text" required>
+                                                    <!-- <input
+                                                        class="appearance-none border-gray-300  hover:border-[#40b751] rounded w-full py-2 px-3 text-grey-darker"
+                                                        v-model.trim="full_name" type="text" @blur="validateFullname"
+                                                        required>
                                                     <p class="text-red-600" v-if="fullnameValidity === 'Invalid'">Please
-                                                        enter valid name</p>
+                                                        enter valid name</p> -->
                                                 </div>
                                                 <div v-if="openTab == 1"
                                                     class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
@@ -62,14 +66,14 @@
                                                             Name</label>
                                                         <input
                                                             class="appearance-none border-gray-300 rounded w-full py-2 px-3 hover:border-[#40b751] text-grey-darker"
-                                                            type="text" v-model="organisation_name">
+                                                            type="text" v-model="organisation_name" required>
                                                     </div>
                                                     <div class="mb-4">
                                                         <label class="block text-gray-600 text-base  mb-2">Organisation
                                                             Website</label>
                                                         <input
                                                             class="appearance-none border-gray-300 hover:border-[#40b751] rounded w-full py-2 px-3 text-grey-darker"
-                                                            type="text" v-model="organisation_website">
+                                                            type="text" v-model="organisation_website" required>
                                                     </div>
                                                 </div>
                                                 <div class="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
@@ -77,7 +81,7 @@
                                                         <label class="block text-gray-600 text-base  mb-2">Phone</label>
                                                         <input
                                                             class="appearance-none border-gray-300 hover:border-[#40b751] rounded w-full py-2 px-3 text-grey-darker"
-                                                            type="text" v-model.trim="phone" @blur="validatePhone">
+                                                            type="text" v-model.trim="phone" @blur="validatePhone" required>
                                                         <p class="text-red-600">{{ phoneErrorMessage }}</p>
                                                         <!-- <p class="text-red-600" v-if="phoneValidity === 'Invalid'">Please
                                                             enter valid phone number</p> -->
@@ -86,7 +90,7 @@
                                                         <label class="block text-gray-600 text-base  mb-2">Email</label>
                                                         <input
                                                             class="appearance-none border-gray-300 hover:border-[#40b751] rounded w-full py-2 px-3 text-grey-darker"
-                                                            type="email" v-model.trim="email">
+                                                            type="email" v-model.trim="email" required>
                                                         <!-- <p class="text-red-600" v-if="emailValidity === 'Invalid'">Please
                                                             enter valid email</p> -->
                                                         <p class="text-red-600">{{ emailErrorMessage }}</p>
@@ -96,7 +100,7 @@
                                                             Page</label>
                                                         <input
                                                             class="appearance-none border-gray-300 hover:border-[#40b751] rounded w-full py-2 px-3 text-grey-darker"
-                                                            type="text" v-model="social_media_page">
+                                                            type="text" v-model="social_media_page" required>
                                                     </div>
                                                 </div>
                                                 <div class="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
@@ -104,13 +108,15 @@
                                                         <label class="block text-gray-600 text-base  mb-2">Campaign
                                                             Story</label>
                                                         <textarea id="comment" rows="4" v-model="campaign_story"
-                                                            class="hover:border-[#40b751] w-full py-2 px-3 text-gray-900 bg-white border-1 border-gray-300  focus:ring-0 dark:text-white dark:placeholder-gray-600"></textarea>
+                                                            class="hover:border-[#40b751] w-full py-2 px-3 text-gray-900 bg-white border-1 border-gray-300  focus:ring-0 dark:text-white dark:placeholder-gray-600"
+                                                            required></textarea>
                                                     </div>
                                                     <div class="mb-6">
                                                         <label class="block text-gray-600 text-base  mb-2">Beneficiary
                                                             Group</label>
                                                         <textarea id="comment" rows="4" v-model="beneficiary_group"
-                                                            class="hover:border-[#40b751] w-full py-2 px-3 text-gray-900 bg-white border-1 border-gray-300  focus:ring-0 dark:text-white dark:placeholder-gray-600"></textarea>
+                                                            class="hover:border-[#40b751] w-full py-2 px-3 text-gray-900 bg-white border-1 border-gray-300  focus:ring-0 dark:text-white dark:placeholder-gray-600"
+                                                            required></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="mb-6">

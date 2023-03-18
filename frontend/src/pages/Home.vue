@@ -2,6 +2,7 @@
 <template>
   <!-- Header-->
 
+  <!-- <div class="bg-no-repeat  bg-cover bg-center " style="background-image: url('../../src/assets/Inter/img/Frame1.jpg')"> -->
   <div class="bg-no-repeat  bg-cover bg-center " style="background-image: url('../../src/assets/Inter/img/Frame1.jpg')">
     <Navbar />
     <div class="container mx-auto h-full">
@@ -17,8 +18,9 @@
             crowd funding platform of India.
           </p>
         </div>
-        <div class="md:pl-32 lg:pl-0 pl-8 lg:pt-0 pt-8 pb-4 lg:pb-16 grid justify-items-center">
-          <img src="../../src/assets/Inter/img/map2.png" class="h-48 md:h-80 lg:h-full w-48 md:w-80 lg:w-full" />
+        <div class="md:pl-32 lg:pl-0 pl-4 lg:pt-0 pt-8 pb-4 lg:pb-16 grid justify-items-center">
+          <img src="../../src/assets/Inter/img/map2.png" class="h-96 md:h-96 lg:h-full w-96 md:w-96 lg:w-full" />
+          <!-- <img src="../../src/assets/Inter/img/map2.png" class="h-56 md:h-80 lg:h-full w-48 md:w-80 lg:w-full" /> -->
         </div>
       </div>
     </div>
@@ -27,6 +29,7 @@
   <!----------------------------------------->
 
   <div class="container mx-auto h-full sm:p-4 lg:p-16 -mt-16 lg:-mt-36 pl-4 lg:pl-0 pr-4 lg:pr-0">
+    <!-- <Sliders :campaigns="campaigns" /> -->
     <div class="bg-white rounded-xl shadow-lg">
       <div v-for="data in campaigns">
         <div v-if="data.is_featured == 1" class="grid mb-5 p-5 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-8">
